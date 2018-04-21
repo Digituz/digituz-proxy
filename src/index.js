@@ -20,6 +20,8 @@ const server = http.createServer((req, res) => {
   if (!host) return sendError(res, 'not found');
 
   const subdomain = host.substring(0, host.indexOf('.digituz.com.br'));
+
+  console.log(`Proxing request to http://${subdomain}`);
   proxy.web(req, res, { target: `http://${subdomain}` });
 });
 
