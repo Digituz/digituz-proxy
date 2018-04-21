@@ -9,4 +9,6 @@ const server = http.createServer((req, res) => {
   proxy.web(req, res, { target: `http://${subdomain}` });
 });
 
-server.listen(3000);
+server.listen(3000, () => {
+  console.log('Ok, proxy is up & running.');
+});
