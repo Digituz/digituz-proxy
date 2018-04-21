@@ -3,16 +3,21 @@ const httpProxy = require('http-proxy');
 
 const proxy = httpProxy.createProxyServer({});
 
-proxy.on('error', function (err, req, res) {
+const sendError = (res) => {
   res.writeHead(500, {
     'Content-Type': 'text/plain'
   });
 
-  res.end(err);
-});
+  res.end(typeof err === 'string' ? err : err.toString());
+};
+
+proxy.on('error', (err, req, res) => (sendError(res)));
 
 const server = http.createServer((req, res) => {
   const { host } = req.headers;
+
+  if (!host) return sendError(res);
+
   const subdomain = host.substring(0, host.indexOf('.digituz.com.br'));
   proxy.web(req, res, { target: `http://${subdomain}` });
 });
