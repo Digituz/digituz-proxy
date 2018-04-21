@@ -8,7 +8,7 @@ proxy.on('error', function (err, req, res) {
     'Content-Type': 'text/plain'
   });
 
-  res.end(err);
+  res.end(typeof err === 'string' ? err : err.toString());
 });
 
 const server = http.createServer((req, res) => {
